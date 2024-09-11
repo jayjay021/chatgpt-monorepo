@@ -1,10 +1,17 @@
 module.exports = {
-  branches: ['main'],
-  repositoryUrl: 'https://github.com/your-repo/your-repo',
+  branches: ["main"],
   plugins: [
-    '@semantic-release/commit-analyzer',
-    '@semantic-release/release-notes-generator',
-    '@semantic-release/github',
-    '@semantic-release/docker',
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/changelog",
+    "@semantic-release/github",
+  ],
+  prepare: ["@semantic-release/changelog", "@semantic-release/git"],
+  publish: ["@semantic-release/github"],
+  output: [
+    {
+      path: "semantic",
+      setOutput: true,
+    },
   ],
 };
