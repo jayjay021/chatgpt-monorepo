@@ -33,14 +33,14 @@ jobs:
 
       - name: Build and Push Docker Images
         run: |
-          packages=$(ls -d */ | grep -v 'node_modules/')
-          for pkg in $packages; do
-            if [ -f "$pkg/Dockerfile" ]; then
-              echo "Building Docker image for $pkg"
+          apps=$(ls -d apps/*/)
+          for app in $apps; do
+            if [ -f "$app/Dockerfile" ]; then
+              echo "Building Docker image for $app"
               VERSION=$(npx semantic-release --dry-run | grep 'Next version:' | awk '{print $3}')
-              docker buildx build --file "$pkg/Dockerfile" \
-                --tag ghcr.io/${{ github.repository_owner }}/${pkg%/}:$VERSION \
-                --tag ghcr.io/${{ github.repository_owner }}/${pkg%/}:latest \
+              docker buildx build --file "$app/Dockerfile" \
+                --tag ghcr.io/${{ github.repository_owner }}/${app%/}:$VERSION \
+                --tag ghcr.io/${{ github.repository_owner }}/${app%/}:latest \
                 --push .
             fi
           done
